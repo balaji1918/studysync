@@ -39,6 +39,8 @@ public class SecurityConfig {
                 .invalidSessionStrategy((request, response) -> {
                     // A missing CSRF token on a fresh request is forbidden, not an expired session.
                     if (request.getRequestedSessionId() != null && !request.isRequestedSessionIdValid()) {
+                        // Replace the stale cookie before redirecting, including on the login page.
+                        request.getSession(true);
                         response.sendRedirect(request.getContextPath() + "/login?expired");
                     } else {
                         response.sendError(403);
