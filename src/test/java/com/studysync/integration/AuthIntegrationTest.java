@@ -128,6 +128,23 @@ class AuthIntegrationTest {
                     request.setRequestedSessionIdValid(false);
                     return request;
                 }))
-                .andExpect(redirectedUrl("/login?expired"));
+                .andExpect(redirectedUrl("/login?expired"))
+                .andExpect(result -> assertNotNull(result.getRequest().getSession(false),
+                        "Replace the stale session so the redirected request can reach login"));
+    }
+    @Test
+    void staleSessionOnLoginIsReplacedAndLoginCanLoad() throws Exception {
+        var result = mockMvc.perform(get("/login").with(request -> {
+                    request.setRequestedSessionId("expired-session");
+                    request.setRequestedSessionIdValid(false);
+                    return request;
+                }))
+                .andExpect(redirectedUrl("/login?expired"))
+                .andReturn();
+        var session = (org.springframework.mock.web.MockHttpSession) result.getRequest().getSession(false);
+        assertNotNull(session, "The redirect must replace the stale session");
+        mockMvc.perform(get("/login?expired").session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("auth/login"));
     }
 }
