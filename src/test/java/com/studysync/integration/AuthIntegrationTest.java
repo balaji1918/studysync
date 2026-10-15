@@ -96,4 +96,38 @@ class AuthIntegrationTest {
         mockMvc.perform(get("/")).andExpect(status().isOk());
         mockMvc.perform(get("/login")).andExpect(status().isOk());
     }
+    @Test
+    void registeredStudentCanLoginViewProfileAndLogout() throws Exception {
+        mockMvc.perform(registerRequest("login@example.com"))
+                .andExpect(redirectedUrl("/login?registered"));
+        var result = mockMvc.perform(post("/login").with(csrf())
+                        .param("email", "login@example.com").param("password", "Secret123"))
+                .andExpect(redirectedUrl("/dashboard")).andReturn();
+        var session = (org.springframework.mock.web.MockHttpSession) result.getRequest().getSession(false);
+        assertNotNull(session);
+        mockMvc.perform(get("/dashboard").session(session)).andExpect(status().isOk());
+        mockMvc.perform(get("/profile").session(session)).andExpect(status().isOk());
+        mockMvc.perform(post("/logout").with(csrf()).session(session))
+                .andExpect(redirectedUrl("/login?logout"));
+        assertTrue(session.isInvalid());
+    }
+
+    @Test
+    void forwardedHttpsRedirectAndHstsArePreserved() throws Exception {
+        mockMvc.perform(get("/dashboard")
+                        .header("X-Forwarded-Proto", "https")
+                        .header("X-Forwarded-Host", "studysync.example.com")
+                        .header("X-Forwarded-Port", "443"))
+                .andExpect(redirectedUrl("https://studysync.example.com/login"))
+                .andExpect(header().exists("Strict-Transport-Security"));
+    }
+    @Test
+    void staleSessionStillRedirectsToExpiredLogin() throws Exception {
+        mockMvc.perform(get("/dashboard").with(request -> {
+                    request.setRequestedSessionId("expired-session");
+                    request.setRequestedSessionIdValid(false);
+                    return request;
+                }))
+                .andExpect(redirectedUrl("/login?expired"));
+    }
 }
