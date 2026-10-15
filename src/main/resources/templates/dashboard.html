@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Dashboard')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main id="main" class="container">
+    <h1>Welcome, <span th:text="${profile.fullName}">Student</span></h1>
+
+    <section class="card" aria-labelledby="summary-title">
+        <h2 id="summary-title">Your profile</h2>
+        <p><span th:text="${profile.department}">Department</span>, Year <span th:text="${profile.yearOfStudy}">1</span>
+            · <span th:text="${profile.college}">College</span></p>
+        <p th:if="${profile.canHelpWith.isEmpty() and profile.wantToLearn.isEmpty()}" class="alert alert-info">
+            Add the subjects you can help with and want to learn so classmates can find you.
+        </p>
+        <p th:if="${!profile.discoverable}" class="help">Your profile is hidden from other students.</p>
+        <div class="actions">
+            <a class="btn btn-primary" th:href="@{/profile}">Edit my profile</a>
+            <a class="btn btn-outline" th:href="@{/students/{id}(id=${profile.userId})}">View public profile</a>
+        </div>
+    </section>
+</main>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+target/
+.idea/
+*.iml
+.vscode/
+.env
+*.log
+application-local.properties
+.DS_Store
+.env.*
+!.env.example

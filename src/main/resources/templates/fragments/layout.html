@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:fragment="head(title)">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' · StudySync'">StudySync</title>
+    <meta name="description" content="StudySync - Learn Together. Build Together.">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <script th:src="@{/js/app.js}" defer></script>
+</head>
+<body>
+
+<header th:fragment="navbar" class="site-header">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <div class="container nav-bar">
+        <a class="brand" th:href="@{/}" aria-label="StudySync home">
+            <svg class="brand-mark" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false">
+                <rect width="32" height="32" rx="8" fill="#0B1F3A"/>
+                <path d="M9 12.5a7 7 0 0 1 12-3.2M23 19.5a7 7 0 0 1-12 3.2" fill="none" stroke="#2DD4BF" stroke-width="2.4" stroke-linecap="round"/>
+                <path d="M21.5 5.5v4.2h-4.2M10.5 26.5v-4.2h4.2" fill="none" stroke="#2DD4BF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>StudySync</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+            <span class="sr-only">Menu</span>
+            <span class="nav-toggle-bars" aria-hidden="true"></span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Main">
+            <div sec:authorize="!isAuthenticated()" class="nav-links">
+                <a th:href="@{/#features}">Features</a>
+                <a th:href="@{/#how-it-works}">How it works</a>
+                <a th:href="@{/login}">Log in</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/register}">Create account</a>
+            </div>
+            <div sec:authorize="isAuthenticated()" class="nav-links">
+                <a th:href="@{/dashboard}">Dashboard</a>
+                <a th:href="@{/profile}">My profile</a>
+                <form th:action="@{/logout}" method="post" class="inline-form">
+                    <button type="submit" class="btn btn-outline btn-sm">Log out</button>
+                </form>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div th:fragment="flash" class="container flash-wrap">
+    <p class="alert alert-success" role="status" th:if="${success}" th:text="${success}"></p>
+    <p class="alert alert-error" role="alert" th:if="${error}" th:text="${error}"></p>
+</div>
+
+<footer th:fragment="footer" class="site-footer">
+    <div class="container footer-grid">
+        <div>
+            <p class="footer-brand">StudySync</p>
+            <p class="footer-tagline">Learn Together. Build Together.</p>
+        </div>
+        <nav aria-label="Footer">
+            <a th:href="@{/contact}">Contact</a>
+            <a th:href="@{/privacy}">Privacy</a>
+            <a th:href="@{/terms}">Terms</a>
+        </nav>
+    </div>
+</footer>
+
+</body>
+</html>

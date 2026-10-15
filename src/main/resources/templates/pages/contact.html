@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Contact')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<main id="main" class="container prose">
+    <h1>Contact</h1>
+    <p th:if="${contactEmail}">Questions or problems? Email <a th:href="'mailto:' + ${contactEmail}" th:text="${contactEmail}">admin@example.com</a>.</p>
+    <p th:unless="${contactEmail}">The site administrator has not published a contact address yet.</p>
+</main>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

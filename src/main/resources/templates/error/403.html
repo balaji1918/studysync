@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Access denied')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<main id="main" class="container narrow">
+    <div class="card form-card center">
+        <p class="error-code">403</p>
+        <h1>Access denied</h1>
+        <p>You do not have access to this page.</p>
+        <a class="btn btn-primary" th:href="@{/}">Back to home</a>
+    </div>
+</main>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

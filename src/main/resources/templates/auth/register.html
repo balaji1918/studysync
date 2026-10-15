@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Create account')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<main id="main" class="container narrow">
+    <div class="card form-card">
+        <h1>Create your account</h1>
+        <p class="alert alert-error" role="alert" th:if="${#fields.hasErrors('${registrationForm.*}')}">Please fix the highlighted fields and try again.</p>
+
+        <form th:action="@{/register}" th:object="${registrationForm}" method="post" novalidate>
+            <div class="field">
+                <label for="fullName">Full name</label>
+                <input th:field="*{fullName}" type="text" maxlength="100" required autocomplete="name" th:aria-invalid="${#fields.hasErrors('fullName')}">
+                <p class="field-error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+            </div>
+            <div class="field">
+                <label for="email">Email address</label>
+                <input th:field="*{email}" type="email" maxlength="254" required autocomplete="email" th:aria-invalid="${#fields.hasErrors('email')}">
+                <p class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            </div>
+            <div class="field">
+                <label for="college">College name</label>
+                <input th:field="*{college}" type="text" maxlength="150" required th:aria-invalid="${#fields.hasErrors('college')}">
+                <p class="field-error" th:if="${#fields.hasErrors('college')}" th:errors="*{college}"></p>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label for="department">Department</label>
+                    <input th:field="*{department}" type="text" maxlength="100" required th:aria-invalid="${#fields.hasErrors('department')}">
+                    <p class="field-error" th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></p>
+                </div>
+                <div class="field">
+                    <label for="yearOfStudy">Year of study</label>
+                    <select th:field="*{yearOfStudy}" required th:aria-invalid="${#fields.hasErrors('yearOfStudy')}">
+                        <option value="">Select year</option>
+                        <option th:each="y : ${#numbers.sequence(1, 6)}" th:value="${y}" th:text="'Year ' + ${y}"></option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('yearOfStudy')}" th:errors="*{yearOfStudy}"></p>
+                </div>
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" minlength="8" maxlength="72" required autocomplete="new-password" aria-describedby="password-help" th:aria-invalid="${#fields.hasErrors('password')}">
+                <p id="password-help" class="help">At least 8 characters, with at least one letter and one number.</p>
+                <p class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+            </div>
+            <div class="field">
+                <label for="confirmPassword">Confirm password</label>
+                <input id="confirmPassword" name="confirmPassword" type="password" maxlength="72" required autocomplete="new-password" th:aria-invalid="${#fields.hasErrors('confirmPassword')}">
+                <p class="field-error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Create account</button>
+        </form>
+        <p class="form-note">Already have an account? <a th:href="@{/login}">Log in</a></p>
+    </div>
+</main>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

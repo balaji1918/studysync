@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Student profile')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<main id="main" class="container narrow-wide">
+    <article class="card">
+        <h1 th:text="${profile.fullName}">Student</h1>
+        <p class="muted"><span th:text="${profile.department}">Dept</span>, Year <span th:text="${profile.yearOfStudy}">1</span>
+            · <span th:text="${profile.college}">College</span></p>
+        <p th:if="${profile.introduction}" th:text="${profile.introduction}"></p>
+
+        <h2 class="h3">Can help with</h2>
+        <ul class="tags" th:if="${!profile.canHelpWith.isEmpty()}"><li th:each="s : ${profile.canHelpWith}" th:text="${s}"></li></ul>
+        <p class="muted" th:if="${profile.canHelpWith.isEmpty()}">Nothing listed yet.</p>
+
+        <h2 class="h3">Wants to learn</h2>
+        <ul class="tags" th:if="${!profile.wantToLearn.isEmpty()}"><li th:each="s : ${profile.wantToLearn}" th:text="${s}"></li></ul>
+        <p class="muted" th:if="${profile.wantToLearn.isEmpty()}">Nothing listed yet.</p>
+
+        <h2 class="h3">Technical skills</h2>
+        <ul class="tags" th:if="${!profile.skills.isEmpty()}"><li th:each="s : ${profile.skills}" th:text="${s}"></li></ul>
+        <p class="muted" th:if="${profile.skills.isEmpty()}">Nothing listed yet.</p>
+
+        <h2 class="h3">Project interests</h2>
+        <ul class="tags" th:if="${!profile.projectInterests.isEmpty()}"><li th:each="s : ${profile.projectInterests}" th:text="${s}"></li></ul>
+        <p class="muted" th:if="${profile.projectInterests.isEmpty()}">Nothing listed yet.</p>
+
+        <h2 class="h3">Study preference</h2>
+        <p><span th:text="${profile.studyMethodLabel}">Either</span><span th:if="${profile.availability}"> · <span th:text="${profile.availability}"></span></span></p>
+
+        <div class="actions" th:if="${profile.ownProfile}">
+            <a class="btn btn-primary" th:href="@{/profile}">Edit my profile</a>
+        </div>
+    </article>
+</main>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

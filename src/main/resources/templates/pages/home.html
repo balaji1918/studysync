@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Learn Together. Build Together.')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main id="main">
+    <section class="hero">
+        <div class="container hero-inner">
+            <p class="eyebrow">For college students</p>
+            <h1>Learn Together. Build Together.</h1>
+            <p class="lead">StudySync connects students who need help with students who can give it: explain a difficult concept,
+                find a classmate to study with, or put together a team for your next project.</p>
+            <div class="hero-actions">
+                <a class="btn btn-accent btn-lg" th:href="@{/register}">Create your free account</a>
+                <a class="btn btn-ghost btn-lg" th:href="@{/login}">Log in</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section container" aria-labelledby="problems-title">
+        <h2 id="problems-title">Why StudySync?</h2>
+        <div class="grid grid-3">
+            <article class="card plain">
+                <h3>Hard topics, nobody to ask</h3>
+                <p>It is not always easy to find someone who can explain a concept in a way that makes sense to you.</p>
+            </article>
+            <article class="card plain">
+                <h3>Hard to find study partners</h3>
+                <p>Classmates who could help you are out there, but you rarely know who is strong in the subjects you are weak in.</p>
+            </article>
+            <article class="card plain">
+                <h3>Hard to build a project team</h3>
+                <p>Good teams need the right mix of skills and roles, and finding that mix takes time.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="features" class="section section-tint" aria-labelledby="features-title">
+        <div class="container">
+            <h2 id="features-title">Three ways StudySync helps</h2>
+            <div class="grid grid-3">
+                <article class="card feature">
+                    <svg class="icon" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4V5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .7-1 1.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    <h3>Explain My Doubt</h3>
+                    <p>Understand difficult topics through peer explanations.</p>
+                </article>
+                <article class="card feature">
+                    <svg class="icon" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 19c0-3.2 2.7-5.2 6-5.2s6 2 6 5.2M15.5 14.3c2.9-.3 5.5 1.3 5.5 4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    <h3>Find My Study Partner</h3>
+                    <p>Connect with classmates who complement your learning needs.</p>
+                </article>
+                <article class="card feature">
+                    <svg class="icon" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                    <h3>Find My Project Team</h3>
+                    <p>Discover projects and build teams with complementary skills.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="section container" aria-labelledby="how-title">
+        <h2 id="how-title">How it works</h2>
+        <ol class="steps">
+            <li><span class="step-num" aria-hidden="true">1</span><div><h3>Create your profile</h3><p>Tell us your college, what you can help with, and what you want to learn.</p></div></li>
+            <li><span class="step-num" aria-hidden="true">2</span><div><h3>Ask, match, or post</h3><p>Ask a question, look for a study partner, or post a project that needs teammates.</p></div></li>
+            <li><span class="step-num" aria-hidden="true">3</span><div><h3>Work together</h3><p>Explain concepts, plan study sessions, and keep your project tasks organised in one place.</p></div></li>
+        </ol>
+    </section>
+
+    <section class="section section-tint" aria-labelledby="benefits-title">
+        <div class="container">
+            <h2 id="benefits-title">Built for students</h2>
+            <ul class="benefits">
+                <li>Learn from classmates who recently studied the same material.</li>
+                <li>Teach what you know and strengthen your own understanding.</li>
+                <li>Meet people with skills that complement yours.</li>
+                <li>Keep questions, study plans and project work connected.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container cta-inner">
+            <h2>Ready to learn and build with your classmates?</h2>
+            <a class="btn btn-accent btn-lg" th:href="@{/register}">Create your free account</a>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('My profile')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main id="main" class="container narrow-wide">
+    <h1>My profile</h1>
+    <p class="help">Your email address is never shown to other students.</p>
+    <p class="alert alert-error" role="alert" th:if="${#fields.hasErrors('${profileForm.*}')}">Please fix the highlighted fields and try again.</p>
+
+    <form class="card" th:action="@{/profile}" th:object="${profileForm}" method="post" novalidate>
+        <div class="field">
+            <label for="fullName">Full name</label>
+            <input th:field="*{fullName}" type="text" maxlength="100" required th:aria-invalid="${#fields.hasErrors('fullName')}">
+            <p class="field-error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+        </div>
+        <div class="field">
+            <label for="college">College</label>
+            <input th:field="*{college}" type="text" maxlength="150" required th:aria-invalid="${#fields.hasErrors('college')}">
+            <p class="field-error" th:if="${#fields.hasErrors('college')}" th:errors="*{college}"></p>
+        </div>
+        <div class="field-row">
+            <div class="field">
+                <label for="department">Department</label>
+                <input th:field="*{department}" type="text" maxlength="100" required th:aria-invalid="${#fields.hasErrors('department')}">
+                <p class="field-error" th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></p>
+            </div>
+            <div class="field">
+                <label for="yearOfStudy">Year of study</label>
+                <select th:field="*{yearOfStudy}" required th:aria-invalid="${#fields.hasErrors('yearOfStudy')}">
+                    <option value="">Select year</option>
+                    <option th:each="y : ${#numbers.sequence(1, 6)}" th:value="${y}" th:text="'Year ' + ${y}"></option>
+                </select>
+                <p class="field-error" th:if="${#fields.hasErrors('yearOfStudy')}" th:errors="*{yearOfStudy}"></p>
+            </div>
+        </div>
+        <div class="field">
+            <label for="introduction">Short introduction</label>
+            <textarea th:field="*{introduction}" rows="3" maxlength="500" th:aria-invalid="${#fields.hasErrors('introduction')}"></textarea>
+            <p class="field-error" th:if="${#fields.hasErrors('introduction')}" th:errors="*{introduction}"></p>
+        </div>
+        <div class="field">
+            <label for="canHelpWith">Subjects I can help with</label>
+            <input th:field="*{canHelpWith}" type="text" maxlength="500" aria-describedby="list-help" th:aria-invalid="${#fields.hasErrors('canHelpWith')}">
+            <p class="field-error" th:if="${#fields.hasErrors('canHelpWith')}" th:errors="*{canHelpWith}"></p>
+        </div>
+        <div class="field">
+            <label for="wantToLearn">Subjects I want to learn</label>
+            <input th:field="*{wantToLearn}" type="text" maxlength="500" aria-describedby="list-help" th:aria-invalid="${#fields.hasErrors('wantToLearn')}">
+            <p class="field-error" th:if="${#fields.hasErrors('wantToLearn')}" th:errors="*{wantToLearn}"></p>
+        </div>
+        <div class="field">
+            <label for="skills">Technical skills</label>
+            <input th:field="*{skills}" type="text" maxlength="500" aria-describedby="list-help" th:aria-invalid="${#fields.hasErrors('skills')}">
+            <p class="field-error" th:if="${#fields.hasErrors('skills')}" th:errors="*{skills}"></p>
+        </div>
+        <div class="field">
+            <label for="projectInterests">Project interest areas</label>
+            <input th:field="*{projectInterests}" type="text" maxlength="500" aria-describedby="list-help" th:aria-invalid="${#fields.hasErrors('projectInterests')}">
+            <p class="field-error" th:if="${#fields.hasErrors('projectInterests')}" th:errors="*{projectInterests}"></p>
+        </div>
+        <p id="list-help" class="help">For the four lists above, separate items with commas, for example: Java, Data Structures, SQL. Up to 15 items each.</p>
+        <div class="field-row">
+            <div class="field">
+                <label for="studyMethod">Preferred study method</label>
+                <select th:field="*{studyMethod}">
+                    <option th:each="m : ${studyMethods}" th:value="${m}" th:text="${m.label}"></option>
+                </select>
+                <p class="field-error" th:if="${#fields.hasErrors('studyMethod')}" th:errors="*{studyMethod}"></p>
+            </div>
+            <div class="field">
+                <label for="availability">Availability (optional)</label>
+                <input th:field="*{availability}" type="text" maxlength="300" placeholder="e.g. Weekday evenings" th:aria-invalid="${#fields.hasErrors('availability')}">
+                <p class="field-error" th:if="${#fields.hasErrors('availability')}" th:errors="*{availability}"></p>
+            </div>
+        </div>
+        <div class="field checkbox">
+            <input th:field="*{discoverable}" type="checkbox">
+            <label for="discoverable1">Let other students find my profile</label>
+        </div>
+        <p class="help">Please do not put phone numbers or other private contact details in your profile.</p>
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">Save profile</button>
+            <a class="btn btn-outline" th:href="@{/dashboard}">Cancel</a>
+        </div>
+    </form>
+</main>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

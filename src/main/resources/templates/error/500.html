@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Something went wrong')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<main id="main" class="container narrow">
+    <div class="card form-card center">
+        <p class="error-code">500</p>
+        <h1>Something went wrong</h1>
+        <p>Something went wrong on our side. Please try again in a moment.</p>
+        <a class="btn btn-primary" th:href="@{/}">Back to home</a>
+    </div>
+</main>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

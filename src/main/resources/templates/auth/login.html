@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Log in')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<main id="main" class="container narrow">
+    <div class="card form-card">
+        <h1>Log in</h1>
+        <p class="alert alert-success" role="status" th:if="${param.registered != null}">Your account was created. Please log in.</p>
+        <p class="alert alert-success" role="status" th:if="${param.logout != null}">You have been logged out.</p>
+        <p class="alert alert-error" role="alert" th:if="${param.expired != null}">Your session expired. Please log in again.</p>
+        <p class="alert alert-error" role="alert" th:if="${param.error != null}">Invalid email or password, or this account is suspended.</p>
+
+        <form th:action="@{/login}" method="post" novalidate>
+            <div class="field">
+                <label for="email">Email address</label>
+                <input id="email" name="email" type="email" required autocomplete="email" autofocus>
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </form>
+        <p class="form-note">New to StudySync? <a th:href="@{/register}">Create an account</a></p>
+    </div>
+</main>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>
