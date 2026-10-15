@@ -36,7 +36,14 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID"))
             .sessionManagement(session -> session
-                .invalidSessionUrl("/login?expired"))
+                .invalidSessionStrategy((request, response) -> {
+                    // A missing CSRF token on a fresh request is forbidden, not an expired session.
+                    if (request.getRequestedSessionId() != null && !request.isRequestedSessionIdValid()) {
+                        response.sendRedirect(request.getContextPath() + "/login?expired");
+                    } else {
+                        response.sendError(403);
+                    }
+                }))
             // CSRF protection stays ON (default). Thymeleaf adds the token to every th:action form.
             .headers(headers -> headers
                 .contentSecurityPolicy(csp -> csp.policyDirectives(
