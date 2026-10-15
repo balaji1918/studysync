@@ -1,0 +1,11 @@
+**
+!pom.xml
+!src/
+!src/**
+**/.env
+**/.env.*
+**/application-local.properties
+**/*.pem
+**/*.key
+**/*.p12
+**/*.jks
