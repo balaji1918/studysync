@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Find My Project Team')}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}">
+</div>
+<div th:replace="~{fragments/layout :: flash}">
+</div>
+<main id="main" class="container">
+<h1>Find My Project Team</h1>
+<form method="get" th:action="@{/projects}" class="card">
+<label>Search title, category or skill<input name="search" th:value="${search}">
+</label>
+<button class="btn btn-primary">Find projects</button>
+</form>
+<p th:if="${projects.isEmpty()}">No projects found. Post your idea below.</p>
+<article class="card" th:each="p : ${projects}">
+<h2>
+<a th:href="@{/projects/{id}(id=${p.id})}" th:text="${p.title}">
+</a>
+</h2>
+<p th:text="${p.problem_statement}">
+</p>
+<p>
+<span th:text="${p.category}">
+</span> Â· <span th:text="${p.status}">
+</span>
+</p>
+<p th:text="${p.full_name}">
+</p>
+</article>
+<section class="card">
+<h2>Post a project idea</h2>
+<form method="post" th:action="@{/projects}">
+<label>Project title<input name="title" type="text" maxlength="150" required>
+</label>
+<label>Problem statement<textarea name="problem" maxlength="1000" required rows="4">
+</textarea>
+</label>
+<label>Describe your idea<textarea name="description" maxlength="10000" required rows="4">
+</textarea>
+</label>
+<label>Category<input name="category" type="text" maxlength="50" required>
+</label>
+<label>Required skills (comma separated)<input name="skills" type="text" maxlength="500" required>
+</label>
+<label>Required team roles<input name="roles" type="text" maxlength="500" required>
+</label>
+<label>Open positions<input name="positions" type="number" min="1" max="50" required>
+</label>
+<label>Expected duration<input name="duration" type="text" maxlength="100" required>
+</label>
+<button class="btn btn-primary">Post project</button>
+</form>
+</section>
+</main>
+<div th:replace="~{fragments/layout :: footer}">
+</div>
+</body>
+</html>

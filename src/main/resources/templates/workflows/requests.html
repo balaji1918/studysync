@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Study requests and sessions')}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}">
+</div>
+<div th:replace="~{fragments/layout :: flash}">
+</div>
+<main id="main" class="container">
+<h1>Study requests and sessions</h1>
+<a th:href="@{/partners}">Find a study partner</a>
+<h2>Requests</h2>
+<p th:if="${requests.isEmpty()}">No requests yet.</p>
+<article class="card" th:each="r : ${requests}">
+<h3>
+<span th:text="${r.sender_name}">
+</span> â†’ <span th:text="${r.recipient_name}">
+</span>
+</h3>
+<p th:text="${r.subject_name}">
+</p>
+<p class="user-content" th:text="${r.message}">
+</p>
+<p th:text="${r.status}">
+</p>
+<form th:if="${r.status == 'PENDING' and r.recipient_id == me}" method="post" th:action="@{/study-requests/{id}/respond(id=${r.id})}">
+<button name="decision" value="ACCEPTED" class="btn btn-primary">Accept</button>
+<button name="decision" value="DECLINED" class="btn btn-outline">Decline</button>
+</form>
+<form th:if="${r.status == 'PENDING' or r.status == 'ACCEPTED'}" method="post" th:action="@{/study-requests/{id}/respond(id=${r.id})}">
+<button name="decision" value="CANCELLED" class="btn btn-outline">Cancel connection</button>
+</form>
+<form th:if="${r.status == 'ACCEPTED'}" method="post" th:action="@{/study-requests/{id}/sessions(id=${r.id})}">
+<h3>Schedule a session</h3>
+<p>Enter a date and time with your UTC offset, for example 2026-11-01T18:00+05:30. Saved sessions below are shown in UTC.</p>
+<label>Date, time and UTC offset<input name="scheduledAt" type="text" maxlength="40" required>
+</label>
+<label>Study method<select name="method">
+<option value="ONLINE">Online</option>
+<option value="IN_PERSON">In person</option>
+</select>
+</label>
+<label>Meeting link or location<textarea name="meetingDetails" maxlength="500" required rows="4">
+</textarea>
+</label>
+<button class="btn btn-primary">Save session</button>
+</form>
+</article>
+<h2>Scheduled sessions (UTC)</h2>
+<p th:if="${sessions.isEmpty()}">No sessions scheduled.</p>
+<article class="card" th:each="s : ${sessions}">
+<h3>
+<span th:text="${s.sender_name}">
+</span> and <span th:text="${s.recipient_name}">
+</span>
+</h3>
+<p th:text="${s.scheduled_at}">
+</p>
+<p th:text="${s.study_method}">
+</p>
+<p class="user-content" th:text="${s.meeting_details}">
+</p>
+<p th:if="${s.request_status != 'ACCEPTED'}">Connection cancelled â€” this session is no longer active.</p>
+</article>
+</main>
+<div th:replace="~{fragments/layout :: footer}">
+</div>
+</body>
+</html>
