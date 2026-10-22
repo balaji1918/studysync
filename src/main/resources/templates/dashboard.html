@@ -7,7 +7,7 @@
 <main id="main" class="container">
     <h1>Welcome, <span th:text="${profile.fullName}">Student</span></h1>
 
-    <section class="card" aria-labelledby="summary-title">
+    <div class="actions"><a class="btn btn-primary" th:href="@{/questions}">Explain My Doubt</a><a class="btn btn-primary" th:href="@{/partners}">Find My Study Partner</a><a class="btn btn-primary" th:href="@{/projects}">Find My Project Team</a><a class="btn btn-outline" th:href="@{/study-requests}">Study requests and sessions</a></div><section class="card" aria-labelledby="summary-title">
         <h2 id="summary-title">Your profile</h2>
         <p><span th:text="${profile.department}">Department</span>, Year <span th:text="${profile.yearOfStudy}">1</span>
             · <span th:text="${profile.college}">College</span></p>

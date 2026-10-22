@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Project workspace')}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}">
+</div>
+<div th:replace="~{fragments/layout :: flash}">
+</div>
+<main id="main" class="container">
+<h1>Project workspace</h1>
+<a th:href="@{/projects}">Back to projects</a>
+<article class="card">
+<h2 th:text="${p.title}">
+</h2>
+<p th:text="${p.problem_statement}">
+</p>
+<p class="user-content" th:text="${p.description}">
+</p>
+<p>Category: <span th:text="${p.category}">
+</span> Â· Status: <span th:text="${p.status}">
+</span>
+</p>
+<p>Roles: <span th:text="${p.required_roles}">
+</span>
+</p>
+<p>Skills: <span th:each="s : ${skills}" th:text="${s.skill_name + ' '}">
+</span>
+</p>
+<p>Recruiting <span th:text="${p.open_positions}">
+</span> teammates Â· Duration: <span th:text="${p.expected_duration}">
+</span>
+</p>
+<form th:if="${p.owner_id == me}" method="post" th:action="@{/projects/{id}/status(id=${p.id})}">
+<button name="status" value="CLOSED" class="btn btn-outline" th:if="${p.status == 'OPEN'}">Close recruitment</button>
+<button name="status" value="OPEN" class="btn btn-outline" th:if="${p.status == 'CLOSED'}">Reopen recruitment</button>
+</form>
+</article>
+<section class="card">
+<h2>Team</h2>
+<p th:each="m : ${members}">
+<span th:text="${m.full_name}">
+</span> Â· <span th:text="${m.member_role}">
+</span>
+</p>
+</section>
+<section class="card" th:if="${!member and p.status == 'OPEN'}">
+<h2>Request to join</h2>
+<form method="post" th:action="@{/projects/{id}/apply(id=${p.id})}">
+<label>Your skills and preferred role<textarea name="message" maxlength="500" required rows="4">
+</textarea>
+</label>
+<button class="btn btn-primary">Send application</button>
+</form>
+</section>
+<section class="card">
+<h2>Join requests</h2>
+<p th:if="${applications.isEmpty()}">No applications to show.</p>
+<article th:each="a : ${applications}">
+<h3 th:text="${a.full_name}">
+</h3>
+<p class="user-content" th:text="${a.message}">
+</p>
+<p th:text="${a.status}">
+</p>
+<form th:if="${a.status == 'PENDING'}" method="post" th:action="@{/projects/{id}/decide(id=${p.id})}">
+<input name="applicationId" type="hidden" th:value="${a.id}">
+<button th:if="${p.owner_id == me}" name="decision" value="ACCEPTED" class="btn btn-primary">Accept</button>
+<button th:if="${p.owner_id == me}" name="decision" value="REJECTED" class="btn btn-outline">Reject</button>
+<button th:if="${a.applicant_id == me}" name="decision" value="WITHDRAWN" class="btn btn-outline">Withdraw</button>
+</form>
+</article>
+</section>
+<section th:if="${member}">
+<h2>Team tasks and progress</h2>
+<p>
+<span th:text="${#lists.size(tasks.?[status == 'COMPLETED'])}">
+</span> of <span th:text="${tasks.size()}">
+</span> tasks completed</p>
+<article class="card" th:each="t : ${tasks}">
+<h3 th:text="${t.title}">
+</h3>
+<p class="user-content" th:text="${t.description}">
+</p>
+<p>Assigned to: <span th:text="${t.assignee_name ?: 'Unassigned'}">
+</span> Â· Due: <span th:text="${t.due_date ?: 'No due date'}">
+</span>
+</p>
+<p th:text="${t.status}">
+</p>
+<form method="post" th:action="@{/projects/{id}/progress(id=${p.id})}">
+<input type="hidden" name="taskId" th:value="${t.id}">
+<label>Progress<select name="status">
+<option value="TODO" th:selected="${t.status == 'TODO'}">To do</option>
+<option value="IN_PROGRESS" th:selected="${t.status == 'IN_PROGRESS'}">In progress</option>
+<option value="COMPLETED" th:selected="${t.status == 'COMPLETED'}">Completed</option>
+</select>
+</label>
+<button class="btn btn-primary">Update progress</button>
+</form>
+</article>
+<section class="card">
+<h2>Add a task</h2>
+<form method="post" th:action="@{/projects/{id}/tasks(id=${p.id})}">
+<label>Task title<input name="title" type="text" maxlength="150" required>
+</label>
+<label>Task description<textarea name="description" maxlength="1000" required rows="4">
+</textarea>
+</label>
+<label>Assign to<select name="assignee">
+<option value="">Unassigned</option>
+<option th:each="m : ${members}" th:value="${m.user_id}" th:text="${m.full_name}">
+</option>
+</select>
+</label>
+<label>Due date<input type="date" name="dueDate">
+</label>
+<button class="btn btn-primary">Add task</button>
+</form>
+</section>
+</section>
+</main>
+<div th:replace="~{fragments/layout :: footer}">
+</div>
+</body>
+</html>
