@@ -27,7 +27,7 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/login")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/dashboard", true)
+                .defaultSuccessUrl("/dashboard", false)
                 .failureUrl("/login?error")
                 .permitAll())
             .logout(logout -> logout
@@ -35,8 +35,6 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/login?logout")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID"))
-            .sessionManagement(session -> session
-                .invalidSessionUrl("/login?expired"))
             // CSRF protection stays ON (default). Thymeleaf adds the token to every th:action form.
             .headers(headers -> headers
                 .contentSecurityPolicy(csp -> csp.policyDirectives(
