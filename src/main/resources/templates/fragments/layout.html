@@ -34,7 +34,7 @@
             </div>
             <div sec:authorize="isAuthenticated()" class="nav-links">
                 <a th:href="@{/dashboard}">Dashboard</a>
-                <a th:href="@{/profile}">My profile</a>
+                <a th:href="@{/profile}">My profile</a><a th:href="@{/questions}">Doubts</a><a th:href="@{/partners}">Study partners</a><a th:href="@{/projects}">Projects</a><a th:href="@{/study-requests}">Study plans</a>
                 <form th:action="@{/logout}" method="post" class="inline-form">
                     <button type="submit" class="btn btn-outline btn-sm">Log out</button>
                 </form>

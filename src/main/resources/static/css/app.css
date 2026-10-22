@@ -156,3 +156,13 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
 .site-footer a:hover { color: var(--white); }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+.user-content { white-space: pre-wrap; overflow-wrap: anywhere; }
+main.container { padding-top: 2rem; padding-bottom: 3rem; }
+form label { display: block; margin-bottom: 1rem; }
+form input, form textarea, form select { max-width: 100%; }
+
+.card.feature { position: relative; }
+.card.feature h3 a::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius); }
+.card.feature:focus-within { outline: 3px solid var(--teal); }
+@media (min-width: 800px) { .nav-links { flex-wrap: wrap; justify-content: flex-end; gap: .65rem; } }
